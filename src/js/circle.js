@@ -17,7 +17,7 @@ module.exports = class Circle {
   create() {
 
     //Geometryを作成
-    var geometry = new THREE.IcosahedronGeometry(0.5,1);
+    var geometry = new THREE.IcosahedronGeometry(0.5,4);
 
     // Material作成
     let material = new THREE.ShaderMaterial({
@@ -29,61 +29,7 @@ module.exports = class Circle {
         'resolution':{
           type:'v2',
           value:new THREE.Vector2(windowWidth * dpr,windowHeight * dpr)
-        },
-        'uTimeScale': {
-          type: 'f',
-          value: 0.2 * Math.random() + 0.7
-        },
-        // uRadius: {
-        //   type: 'f',
-        //   value: this.geometryR[t] * this.comparison
-        // },
-        // // uColor: {
-        // //   value: new THREE.Color(this.colorPalette[t])
-        // // },
-        // // uColor_2: {
-        // //   value: new THREE.Color(this.colorPalette[t + 3])
-        // // },
-        // uTick: {
-        //   type: 'f',
-        //   value: 0
-        // },
-        // // uColorTick: {
-        // //   type: 'f',
-        // //   value: 0
-        // // },
-        // uWidth: {
-        //   type: 'f',
-        //   value: this.props.width
-        // },
-        // uOrbit: {
-        //   type: 'f',
-        //   value: this.orbit[t] * this.comparison
-        // },
-        // uNum: {
-        //   type: 'f',
-        //   value: t
-        // },
-        // uTex: {
-        //   type: 't',
-        //   value: this.circleBlurTex
-        // },
-        // uNoiseRadius: {
-        //   type: 'f',
-        //   value: 20 * this.comparison
-        // },
-        // uMousePos: {
-        //   type: 'v2',
-        //   value: new THREE.Vector2(0, 0)
-        // },
-        // uMouseVec: {
-        //   type: 'v2',
-        //   value: new THREE.Vector2(0, 0)
-        // },
-        // uAspect: {
-        //   type: 'f',
-        //   value: aspect
-        // }
+        }      
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader
@@ -96,6 +42,7 @@ module.exports = class Circle {
 
   update(time){
     mesh.material.uniforms.time.value = time;
+    mesh.rotation.z += 0.01;
   }
 
 };

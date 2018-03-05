@@ -1,7 +1,7 @@
 #ifdef GL_ES
 precision mediump float;
 #endif
-#pragma glslify: snoise2 = require(glsl-noise/simplex/2d)
+#pragma glslify: pnoise = require(glsl-noise/periodic/3d)
 
 uniform sampler2D textuer;
 varying vec2 vUv;

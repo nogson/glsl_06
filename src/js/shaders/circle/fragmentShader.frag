@@ -1,10 +1,11 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 
-// varying vec2 vUv;
-
+uniform float time;
+varying vec2 vUv;
 
 void main(){
-	gl_FragColor = vec4(vec3(0.5),1.0);
+	 gl_FragColor = vec4(vUv, sin(time), 1.0);
+	
 }
