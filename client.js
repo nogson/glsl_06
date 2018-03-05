@@ -2,7 +2,7 @@ global.THREE = require('three');
 const createBackground = require('three-vignette-background');
 const Stats = require('stats.js');
 const PostEffect = require('./src/js/posteffect.js');
-const FullScreenPlane = require('./src/js/fullScreenPlane.js');
+const Circle = require('./src/js/circle.js');
 
 const clock = new THREE.Clock();
 const loader = new THREE.TextureLoader();
@@ -40,8 +40,8 @@ let stats = new Stats();
 const posteffect = new PostEffect(app);
 const composer = posteffect.getComposer();
 
-// const plane = new FullScreenPlane();
-// app.scene.add(plane.create());
+const circle = new Circle();
+app.scene.add(circle.create());
 
 render();
 
@@ -63,6 +63,7 @@ function render() {
 
   stats.update();
   //posteffect.update();
+  circle.update(time);
   composer.render();
   composer.passes[1].uniforms.time.value = time;
   requestAnimationFrame(render);
