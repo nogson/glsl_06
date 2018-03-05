@@ -47,7 +47,7 @@ module.exports = class PostEffect {
   }
 
   update(wh){
-    composer.passes[1].uniforms.resolution.value = wh;
+    //composer.passes[1].uniforms.resolution.value = wh;
   }
 };
 
