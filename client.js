@@ -41,7 +41,10 @@ const posteffect = new PostEffect(app);
 const composer = posteffect.getComposer();
 
 const circle = new Circle();
-app.scene.add(circle.create());
+circle.create({x:0.5,y:0.5,z:0.5})
+
+
+app.scene.add(circle.create({x:-0.5,y:-0.5,z:-0.5}));
 
 render();
 

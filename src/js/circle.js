@@ -10,11 +10,16 @@ let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 let dpr = window.devicePixelRatio;
 let mesh;
+let group;
 
 module.exports = class Circle {
-  constructor() { }
+  constructor() { 
 
-  create() {
+    group = new THREE.Group();
+
+  }
+
+  create(pos) {
 
     //Geometryを作成
     var geometry = new THREE.IcosahedronGeometry(0.5,4);
@@ -32,12 +37,17 @@ module.exports = class Circle {
         }      
       },
       vertexShader: vertexShader,
-      fragmentShader: fragmentShader
+      fragmentShader: fragmentShader,
+      //wireframe:true
     });
     // Mesh作成
     mesh = new THREE.Mesh(geometry, material);
-    console.log('mesh',mesh)
-    return mesh;
+
+    mesh.position.set(pos.x,pos.y,pos.z);
+
+    group.add(mesh);
+
+    return group;
   }
 
   update(time){
