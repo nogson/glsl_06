@@ -9,50 +9,60 @@ const fragmentShader = glslify('./shaders/circle/fragmentShader.frag');
 let windowWidth = window.innerWidth;
 let windowHeight = window.innerHeight;
 let dpr = window.devicePixelRatio;
+let geometry;
 let mesh;
-let group;
 
 module.exports = class Circle {
-  constructor() { 
-
-    group = new THREE.Group();
-
+  constructor() {
+    //空のgeometry
+    geometry = new THREE.Geometry();
   }
 
-  create(pos) {
+  create() {
 
-    //Geometryを作成
-    var geometry = new THREE.IcosahedronGeometry(0.5,4);
+    for (let i = 0; i < 10; i++) {
+      let x = Math.random() * 3 - 1.5;
+      let y = Math.random() * 3 - 1.5;
+      let z = Math.random() * 3 - 1.5;
+
+
+      // Mesh作成
+      let meshTemp = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(0.3, 4)
+      );
+
+      meshTemp.position.set(x, y, z);
+
+      geometry.mergeMesh(meshTemp);
+    }
+
 
     // Material作成
     let material = new THREE.ShaderMaterial({
       uniforms: {
-        'time':{
-          type:'f',
-          value : 0.0
+        'time': {
+          type: 'f',
+          value: 0.0
         },
-        'resolution':{
-          type:'v2',
-          value:new THREE.Vector2(windowWidth * dpr,windowHeight * dpr)
-        }      
+        'resolution': {
+          type: 'v2',
+          value: new THREE.Vector2(windowWidth * dpr, windowHeight * dpr)
+        }
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       //wireframe:true
     });
-    // Mesh作成
+
+
     mesh = new THREE.Mesh(geometry, material);
 
-    mesh.position.set(pos.x,pos.y,pos.z);
-
-    group.add(mesh);
-
-    return group;
+    return mesh;
   }
 
-  update(time){
+  update(time) {
     mesh.material.uniforms.time.value = time;
-    mesh.rotation.z += 0.01;
+    //mesh.rotation.z += 0.01;
   }
 
 };

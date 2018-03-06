@@ -29,7 +29,7 @@ float turbulence( vec3 p ) {
 void main() {
     pos = position;
     vUv = uv;
-    noise = cnoise( vec3(normal * amplitude1 + time * speed));
+    noise = cnoise( vec3(position * normal * amplitude1 + time * speed));
 
     vec3 p = position + normal * noise * 0.2;
     gl_Position = projectionMatrix * modelViewMatrix * vec4( p, 1.0 );
