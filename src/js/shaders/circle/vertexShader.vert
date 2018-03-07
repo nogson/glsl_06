@@ -10,8 +10,6 @@ uniform vec2 resolution;
 
 //グネグネの振り幅
 const float amplitude1 = 0.5;
-//頂点の移動幅
-const float amplitude2 = -20.;
 //グネグネのスピード
 const float speed = 0.25;
 
@@ -29,7 +27,7 @@ float turbulence( vec3 p ) {
 void main() {
     pos = position;
     vUv = uv;
-    noise = cnoise( vec3(position * normal * amplitude1 + time * speed));
+    noise = cnoise( vec3(normal * amplitude1 + time * speed));
 
     vec3 p = position + normal * noise * 0.2;
     gl_Position = projectionMatrix * modelViewMatrix * vec4( p, 1.0 );

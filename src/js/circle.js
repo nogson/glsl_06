@@ -11,31 +11,16 @@ let windowHeight = window.innerHeight;
 let dpr = window.devicePixelRatio;
 let geometry;
 let mesh;
+let loader = new THREE.ImageLoader();
 
 module.exports = class Circle {
   constructor() {
-    //空のgeometry
-    geometry = new THREE.Geometry();
   }
 
   create() {
 
-    for (let i = 0; i < 10; i++) {
-      let x = Math.random() * 3 - 1.5;
-      let y = Math.random() * 3 - 1.5;
-      let z = Math.random() * 3 - 1.5;
-
-
-      // Mesh作成
-      let meshTemp = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(0.3, 4)
-      );
-
-      meshTemp.position.set(x, y, z);
-
-      geometry.mergeMesh(meshTemp);
-    }
-
+    // Geometory作成
+    let geometry = new THREE.IcosahedronGeometry(0.5, 4);
 
     // Material作成
     let material = new THREE.ShaderMaterial({
@@ -47,13 +32,19 @@ module.exports = class Circle {
         'resolution': {
           type: 'v2',
           value: new THREE.Vector2(windowWidth * dpr, windowHeight * dpr)
+        },
+        'textuer':{
+          type:'t',
+            value:loader.load('src/assets/images/tx2.jpg',function(tx){
+              tx.magFilter = THREE.NearestFilter;
+              tx.minFilter = THREE.NearestFilter;
+            })
         }
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       //wireframe:true
     });
-
 
     mesh = new THREE.Mesh(geometry, material);
 
@@ -62,6 +53,7 @@ module.exports = class Circle {
 
   update(time) {
     mesh.material.uniforms.time.value = time;
+    mesh.material.uniforms.textuer.value.needsUpdate = true;
     //mesh.rotation.z += 0.01;
   }
 
