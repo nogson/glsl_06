@@ -28,9 +28,18 @@ body.appendChild(app.renderer.domElement);
 // canvasをリサイズ
 app.renderer.setSize(windowWidth, windowHeight);
 
+let background = createBackground({
+  noiseAlpha:0.1,
+  colors:[ '#333333', '#000000' ]
+});
+app.scene.add(background)
+
 //LIGHTS
 let light = new THREE.AmbientLight(0xffffff, 1.0);
 app.scene.add(light);
+
+let dlight = new THREE.DirectionalLight(0xffffff,1.0);
+app.scene.add(dlight);
 
 app.camera.position.z = 1.5;
 
@@ -40,8 +49,19 @@ let stats = new Stats();
 const posteffect = new PostEffect(app);
 const composer = posteffect.getComposer();
 
-const circle = new Circle();
-app.scene.add(circle.create());
+const circle1 = new Circle();
+const mesh1 = circle1.create('src/assets/images/tx.jpg');
+app.scene.add(mesh1);
+
+const circle2 = new Circle();
+const mesh2 = circle2.create('src/assets/images/tx2.jpg');
+mesh2.position.set(1.0,0.2,-1);
+app.scene.add(mesh2);
+
+const circle3 = new Circle();
+const mesh3 = circle2.create('src/assets/images/tx2.jpg');
+mesh3.position.set(-1.0,0.2,-1);
+app.scene.add(mesh3);
 
 render();
 
@@ -63,7 +83,19 @@ function render() {
 
   stats.update();
   //posteffect.update();
-  circle.update(time);
+  mesh1.material.uniforms.time.value = time;
+  mesh2.material.uniforms.time.value = time*0.6;
+  mesh3.material.uniforms.time.value = time*-0.6;
+  mesh1.position.y += Math.cos(time)*0.0025;
+  mesh2.position.y += Math.cos(time * 1.2)*0.0025;
+  mesh3.position.y += Math.cos(time*1.2)*0.0025;
+  mesh1.rotation.z += 0.0001;
+  mesh2.rotation.z -= 0.0001;
+  mesh3.rotation.z += 0.0001;
+
+
+
+
   composer.render();
   composer.passes[1].uniforms.time.value = time;
   requestAnimationFrame(render);

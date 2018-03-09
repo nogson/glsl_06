@@ -11,13 +11,12 @@ let windowHeight = window.innerHeight;
 let dpr = window.devicePixelRatio;
 let geometry;
 let mesh;
-let loader = new THREE.ImageLoader();
+let loader = new THREE.TextureLoader();
 
 module.exports = class Circle {
-  constructor() {
-  }
+  constructor() {}
 
-  create() {
+  create(imgpass) {
 
     // Geometory作成
     let geometry = new THREE.IcosahedronGeometry(0.5, 4);
@@ -33,18 +32,21 @@ module.exports = class Circle {
           type: 'v2',
           value: new THREE.Vector2(windowWidth * dpr, windowHeight * dpr)
         },
-        'textuer':{
-          type:'t',
-            value:loader.load('src/assets/images/tx2.jpg',function(tx){
-              tx.magFilter = THREE.NearestFilter;
-              tx.minFilter = THREE.NearestFilter;
-            })
+        'textuer': {
+          type: 't',
+          value: loader.load(imgpass, function (tx) {
+            tx.magFilter = THREE.NearestFilter;
+            tx.minFilter = THREE.NearestFilter;
+          })
         }
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       //wireframe:true
     });
+
+    material.side = THREE.DoubleSide; // 両面描画する
+
 
     mesh = new THREE.Mesh(geometry, material);
 
@@ -54,7 +56,7 @@ module.exports = class Circle {
   update(time) {
     mesh.material.uniforms.time.value = time;
     mesh.material.uniforms.textuer.value.needsUpdate = true;
-    //mesh.rotation.z += 0.01;
+    mesh.rotation.z += 0.001;
   }
 
 };

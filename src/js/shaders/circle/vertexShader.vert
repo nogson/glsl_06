@@ -9,7 +9,7 @@ uniform float time;
 uniform vec2 resolution;
 
 //グネグネの振り幅
-const float amplitude1 = 0.5;
+const float amplitude1 = 0.8;
 //グネグネのスピード
 const float speed = 0.25;
 
